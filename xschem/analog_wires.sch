@@ -23,11 +23,11 @@ N 320 -240 320 -200 {lab=bias}
 N 440 -120 520 -120 {lab=i_in}
 N 440 -160 440 -120 {lab=i_in}
 N 260 -200 320 -200 {lab=bias}
-N 160 -200 200 -200 {lab=VbiasP[1:0]}
-N 160 -240 200 -240 {lab=VbiasP[1:0]}
+N 160 -200 200 -200 {lab=VbiasP[0]}
+N 160 -240 200 -240 {lab=VbiasP[1]}
 N 260 -240 320 -240 {lab=bias}
 N 320 -260 320 -240 {lab=bias}
-N 160 -300 200 -300 {lab=VDDA[1:0]}
+N 160 -300 200 -300 {lab=VDDA[0]}
 N 160 -340 200 -340 {lab=VDDA[1:0]}
 N 260 -340 280 -340 {lab=vdda}
 N 260 -300 280 -300 {lab=vdda}
@@ -35,8 +35,8 @@ N 260 -80 520 -80 {lab=i_out}
 N 260 -120 440 -120 {lab=i_in}
 N 260 -160 440 -160 {lab=i_in}
 N 440 -260 440 -160 {lab=i_in}
-N 160 -160 200 -160 {lab=VcascP[1:0]}
-N 160 -120 200 -120 {lab=VcascP[1:0]}
+N 160 -160 200 -160 {lab=VcascP[1]}
+N 160 -120 200 -120 {lab=VcascP[0]}
 N 160 -80 200 -80 {lab=Iout}
 C {title.sym} 160 0 0 0 {name=l1 author="Christoph Maier"}
 C {sg13g2_pr/sg13_hv_pmos.sym} 440 -280 1 1 {name=Mcbuffer
@@ -55,15 +55,15 @@ m=19
 model=sg13_hv_pmos
 spiceprefix=X
 }
-C {iopin.sym} 160 -200 0 1 {name=p2 lab=VbiasP[1:0]}
-C {iopin.sym} 160 -340 0 1 {name=p3 lab=VDDA[1:0]}
-C {iopin.sym} 160 -120 0 1 {name=p5 lab=VcascP[1:0]}
+C {iopin.sym} 160 -200 0 1 {name=p2 lab=VbiasP[0]}
+C {iopin.sym} 160 -340 0 1 {name=p3 lab=VDDA[1]}
+C {iopin.sym} 160 -120 0 1 {name=p5 lab=VcascP[0]}
 C {iopin.sym} 160 -80 0 1 {name=p1 lab=Iout}
 C {iopin.sym} 520 -80 0 0 {name=p4 lab=i_out}
 C {iopin.sym} 520 -120 0 0 {name=p6 lab=i_in}
-C {iopin.sym} 160 -300 0 1 {name=p7 lab=VDDA[1:0]}
-C {iopin.sym} 160 -240 0 1 {name=p8 lab=VbiasP[1:0]}
-C {iopin.sym} 160 -160 0 1 {name=p9 lab=VcascP[1:0]}
+C {iopin.sym} 160 -300 0 1 {name=p7 lab=VDDA[0]}
+C {iopin.sym} 160 -240 0 1 {name=p8 lab=VbiasP[1]}
+C {iopin.sym} 160 -160 0 1 {name=p9 lab=VcascP[1]}
 C {lab_wire.sym} 380 -340 0 0 {name=p10 sig_type=std_logic lab=vdda}
 C {lab_wire.sym} 300 -200 0 0 {name=p11 sig_type=std_logic lab=bias}
 C {res.sym} 230 -340 1 0 {name=R1
