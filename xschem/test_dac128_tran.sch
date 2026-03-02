@@ -74,12 +74,11 @@ op
 write test_dac128_tran.raw
 set appendwrite
 *dc Vout 0 1.6 10m VlogI -8 -6 0.5
-tran 10p 500n
+tran 10n 500u
 write test_dac128_tran.raw
-plot 2*(vout#branch-vprobe#branch)/(vprobe#branch+vout#branch)
-plot vdd vpbias vpcbias switch on_n off_n vpcasc vout xref.drain xsrc.drain
+plot 2*(vout#branch-32*vprobe#branch)/(32*vprobe#branch+vout#branch)
+plot vdd pbuf iin enable switch en[0] enb[0] on[0] onb[0] Vout
 plot vout#branch vprobe#branch
-plot switch on_n off_n Vpcasc
 *plot @n.xsw.xmbias.nsg13_lv_pmos[ids] @n.xsw.xmpullup.nsg13_lv_pmos[ids]
 plot viswp#branch viswn#branch
 plot 0.5*(viswp#branch+viswn#branch) viswp#branch-viswn#branch
@@ -158,11 +157,11 @@ C {devices/code_shown.sym} 60 -770 0 0 {name=params only_toplevel=false value="*
 .param vout=0.6
 * simulation parameters
 .param celsius = 25
-.param td     = 10p
+.param td     = 25u
 .param tr     = 10p
 .param tf     = 10p
-.param ton    = 50n
-.param tcyc   = 100n
+.param ton    = 50u
+.param tcyc   = 100u
 "}
 C {vsource.sym} 1320 -650 0 0 {name=Vidacp value=0 savecurrent=true}
 C {vsource.sym} 1320 -150 0 0 {name=Vidacn value=0 savecurrent=true}
@@ -176,7 +175,7 @@ C {lab_wire.sym} 680 -620 2 1 {name=p5 lab=iin}
 C {lab_wire.sym} 680 -640 0 1 {name=p12 lab=pbuf}
 C {inverterpair.sym} 840 -480 0 0 {name=xen[3:0]}
 C {inverterpair.sym} 1060 -380 0 0 {name=xdrv[127:0]}
-C {vsource.sym} 740 -250 0 0 {name=VEN value="DC \{vdd\} PULSE(0 \{vdd\} \{td\} \{tr\} \{tf\} \{ton\} \{tcyc\})" savecurrent=true}
+C {vsource.sym} 740 -250 0 0 {name=VEN value="DC \{vdd\} PULSE(\{vdd\} \{vdd\} \{td\} \{tr\} \{tf\} \{ton\} \{tcyc\})" savecurrent=true}
 C {lab_wire.sym} 740 -480 0 0 {name=p13 sig_type=std_logic lab=enable}
 C {lab_wire.sym} 920 -460 0 1 {name=p14 sig_type=std_logic lab=enb[3:0]}
 C {lab_wire.sym} 920 -480 0 1 {name=p15 sig_type=std_logic lab=en[3:0]}
