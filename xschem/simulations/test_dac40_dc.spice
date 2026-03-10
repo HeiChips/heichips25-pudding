@@ -86,11 +86,11 @@ save all
 op
 write test_dac40_dc.raw
 set appendwrite
-dc Vout 0 1.6 10m VlogI -8 -6 0.5
+dc Vout 0 1.2 10m VlogI -8 -6 0.5
 *tran 10n 500u
 write test_dac40_dc.raw
 plot title "output/reference current asymmetry" 2*(vout#branch-10*vprobe#branch)/(10*vprobe#branch+vout#branch)
-plot ylimit -20m 4m title "output/reference current asymmetry" 2*(vout#branch-10*vprobe#branch)/(10*vprobe#branch+vout#branch)
+plot ylimit -40m 5m title "output/reference current asymmetry" 2*(vout#branch-10*vprobe#branch)/(10*vprobe#branch+vout#branch)
 plot vdd pbuf iin enable switch v("en[0]") v("enb[0]") v("on[0]") v("onb[0]") Vout
 plot vout#branch vprobe#branch
 *plot @n.xsw.xmbias.nsg13_lv_pmos[ids] @n.xsw.xmpullup.nsg13_lv_pmos[ids]
@@ -119,7 +119,7 @@ plot vidacp#branch vidacn#branch
 .param wnlogic= 0.15u
 * instrumentation parameters
 .param logI=-7
-.param vdd=1.6
+.param vdd=1.2
 .param vout=0.6
 * simulation parameters
 .param celsius = 25
