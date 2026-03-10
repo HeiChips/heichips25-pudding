@@ -90,8 +90,8 @@ name=Libs_Ngspice
 simulator=ngspice
 only_toplevel=false
 value=".include sg13g2_stdcell.spice
-.lib cornerMOSlv.lib mos_ss
-.lib cornerMOShv.lib mos_ss"
+.lib cornerMOSlv.lib mos_ff
+.lib cornerMOShv.lib mos_ff"
       }
 C {launcher.sym} 130 -130 0 0 {name=h3
 descr=SimulateNGSPICE
