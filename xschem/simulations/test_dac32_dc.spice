@@ -77,7 +77,7 @@ save all
 op
 write test_dac32_dc.raw
 set appendwrite
-dc Vout 0 1.6 10m VlogI -8 -6 0.5
+dc Vout 0 1.2 10m VlogI -8 -6 0.5
 *tran 10n 500u
 write test_dac32_dc.raw
 plot title "output/reference current asymmetry" 2*(vout#branch-8*vprobe#branch)/(8*vprobe#branch+vout#branch)
@@ -93,8 +93,8 @@ plot vidacp#branch vidacn#branch
 
 
 .include sg13g2_stdcell.spice
-.lib cornerMOSlv.lib mos_tt
-.lib cornerMOShv.lib mos_tt
+.lib cornerMOSlv.lib mos_ss
+.lib cornerMOShv.lib mos_ss
 
 
 * device parameters
@@ -110,7 +110,7 @@ plot vidacp#branch vidacn#branch
 .param wnlogic= 0.15u
 * instrumentation parameters
 .param logI=-7
-.param vdd=1.6
+.param vdd=1.2
 .param vout=0.6
 * simulation parameters
 .param celsius = 25

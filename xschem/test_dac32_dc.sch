@@ -73,7 +73,7 @@ save all
 op
 write test_dac32_dc.raw
 set appendwrite
-dc Vout 0 1.6 10m VlogI -8 -6 0.5
+dc Vout 0 1.2 10m VlogI -8 -6 0.5
 *tran 10n 500u
 write test_dac32_dc.raw
 plot title \\"output/reference current asymmetry\\" 2*(vout#branch-8*vprobe#branch)/(8*vprobe#branch+vout#branch)
@@ -90,8 +90,8 @@ name=Libs_Ngspice
 simulator=ngspice
 only_toplevel=false
 value=".include sg13g2_stdcell.spice
-.lib cornerMOSlv.lib mos_tt
-.lib cornerMOShv.lib mos_tt"
+.lib cornerMOSlv.lib mos_ss
+.lib cornerMOShv.lib mos_ss"
       }
 C {launcher.sym} 130 -130 0 0 {name=h3
 descr=SimulateNGSPICE
@@ -154,7 +154,7 @@ C {devices/code_shown.sym} 60 -770 0 0 {name=params only_toplevel=false value="*
 .param wnlogic= 0.15u
 * instrumentation parameters
 .param logI=-7
-.param vdd=1.6
+.param vdd=1.2
 .param vout=0.6
 * simulation parameters
 .param celsius = 25
