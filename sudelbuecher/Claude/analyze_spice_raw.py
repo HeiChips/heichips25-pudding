@@ -307,7 +307,7 @@ def plot_dc_sweep(plots: list[dict], out_prefix: str, extra_vars: list[str] = No
                 seg_iref = -iref_col[i_out * n_inner:(i_out + 1) * n_inner]
                 I_ref = 10 ** outer_vals[i_out]
 
-                ratio = seg_ids / (seg_iref + 1e-20)
+                ratio = -seg_ids / (seg_iref + 1e-20)
                 # Nur für VDS > 0.05V sinnvoll
                 mask = vd_axis > 0.05
                 ax_ratio.plot(vd_axis[mask], ratio[mask],
