@@ -120,18 +120,18 @@ save all
 op
 write test_nmirror.raw
 set appendwrite
-foreach l_val 0.5u 0.8u 1u 1.5u
-  foreach w_val 2u 5u 10u 20u
+foreach l_val 5u 20u
+  foreach w_val 2u
     alterparam l = $l_val
     alterparam w = $w_val
     reset
     save all
     dc Vd 0 1.2 10m VlogI -8 -6 0.5
     write test_nmirror.raw
+    plot Vg Vd
+    plot vprobe#branch 0-vd#branch
+    plot 2*(vprobe#branch+vd#branch)/(vprobe#branch-vd#branch)
   end
 end
-plot Vg Vd
-plot vprobe#branch 0-vd#branch
-plot 2*(vprobe#branch+vd#branch)/(vprobe#branch-vd#branch)
 .endc
 "}
