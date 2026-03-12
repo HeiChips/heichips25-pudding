@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 // Adapted from the Tiny Tapeout template
-// minimum design: 32 DAC sources only
+// 64 DAC sources only
 
 `default_nettype none
 
@@ -24,19 +24,19 @@ module heichips25_pudding(
 //(* keep = "yes" *) wire VPWR;
 //(* keep = "yes" *) wire VGND;
    
-    wire [7:0] iref;
-    wire [7:0] bias;
-    wire [3:0] dacout;
-    wire [7:0] vdda;
+    wire [3:0] iref;
+    wire [3:0] bias;
+    wire [1:0] dacout;
+    wire [3:0] vdda;
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, uio_in[7:0], ui_in[7:5], vdda[7:0]};
+    wire _unused = &{ena, uio_in[7:0], ui_in[7:5], vdda[3:0], iref[3:0], bias[3:0], dacout[1:0]};
 
     logic[3:0] stateen, stateenp, stateenn;
 
     logic datum, shift, transfer, dir;
 
-    logic[127:0] daisychain;
-    logic[127:0] state;
+    logic[63:0] daisychain;
+    logic[63:0] state;
 
     assign datum    = ui_in[0];
     assign shift    = ui_in[1];
@@ -63,14 +63,14 @@ module heichips25_pudding(
             end
             else if (shift)
             begin
-                daisychain <= {daisychain[126:0],datum};
+                daisychain <= {daisychain[62:0],datum};
             end
         end
     end
 
     
-assign uo_out  = daisychain[127:120];
-assign uio_out = state[127:120];
+assign uo_out  = daisychain[63:56];
+assign uio_out = state[63:56];
 assign uio_oe  = 8'hFF;
 
     digital4 digitalen (
@@ -104,37 +104,13 @@ assign uio_oe  = 8'hFF;
     .VSS(VGND)
     );
 
-(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac2 (
-    .Iout(dacout[2]),
-    .VcascP(iref[5:4]),
-    .VbiasP(bias[5:4]),
-    .ON(state[95:64]),
-    .ONB(~state[95:64]),
-    .EN(stateenp[3:0]),
-    .ENB(stateenn[3:0]),
-    .VDD(VPWR),
-    .VSS(VGND)
-    );
-
-(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac3 (
-    .Iout(dacout[3]),
-    .VcascP(iref[7:6]),
-    .VbiasP(bias[7:6]),
-    .ON(state[127:96]),
-    .ONB(~state[127:96]),
-    .EN(stateenp[3:0]),
-    .ENB(stateenn[3:0]),
-    .VDD(VPWR),
-    .VSS(VGND)
-    );
-
 (* keep_hierarchy = "yes", keep = "yes" *) analog_wires wires (
     .Iout(dacout),
     .VcascP(iref),
     .VbiasP(bias),
     .i_out(i_out),
     .i_in(i_in),
-    .VDDA(vdda[7:0])
+    .VDDA(vdda[3:0])
     );
 endmodule
 
