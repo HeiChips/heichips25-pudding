@@ -45,11 +45,11 @@ USE_SLANG: true
 
 # reserve space for the DAC
 FP_OBSTRUCTIONS: 
-# dac obstruction height is 30.33
-- [360.2, 10, 400, 40.33]
-- [360.2, 60, 400, 90.33]
-- [360.2, 110, 400, 140.33]
-- [360.2, 160, 400, 190.33]
+# dac obstruction height is 28.33
+- [360.2, 21, 400, 49.33]
+- [360.2, 61, 400, 89.33]
+- [360.2, 111, 400, 139.33]
+- [360.2, 151, 400, 179.33]
 - [400, 4, 497, 196]
 
 MACROS:
@@ -62,7 +62,7 @@ MACROS:
 #     - dir::../src/dac32module.sv
     instances:
       dac0:
-        location: [362.2, 12]
+        location: [362.2, 22]
         orientation: N
       dac1:
         location: [362.2, 62]
@@ -71,7 +71,7 @@ MACROS:
         location: [362.2, 112]
         orientation: N
       dac3:
-        location: [362.2, 162]
+        location: [362.2, 152]
         orientation: N
   analog_wires:
     gds:

@@ -24,12 +24,12 @@ module heichips25_pudding(
 //(* keep = "yes" *) wire VPWR;
 //(* keep = "yes" *) wire VGND;
    
-    wire[1:0] iref;
-    wire[1:0] bias;
-    wire dacout;
-    wire [1:0]vdda;
+    wire [7:0] iref;
+    wire [7:0] bias;
+    wire [3:0] dacout;
+    wire [7:0] vdda;
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, uio_in[7:0], ui_in[7:5], vdda[1:0]};
+    wire _unused = &{ena, uio_in[7:0], ui_in[7:5], vdda[7:0]};
 
     logic[3:0] stateen, stateenp, stateenn;
 
@@ -81,9 +81,9 @@ assign uio_oe  = 8'hFF;
 
 
 (* keep_hierarchy = "yes", keep = "yes" *) dac32module dac0 (
-    .Iout(dacout),
-    .VcascP(iref),
-    .VbiasP(bias),
+    .Iout(dacout[0]),
+    .VcascP(iref[1:0]),
+    .VbiasP(bias[1:0]),
     .ON(state[31:0]),
     .ONB(~state[31:0]),
     .EN(stateenp[3:0]),
@@ -93,9 +93,9 @@ assign uio_oe  = 8'hFF;
     );
 
 (* keep_hierarchy = "yes", keep = "yes" *) dac32module dac1 (
-    .Iout(dacout),
-    .VcascP(iref),
-    .VbiasP(bias),
+    .Iout(dacout[1]),
+    .VcascP(iref[3:2]),
+    .VbiasP(bias[3:2]),
     .ON(state[63:32]),
     .ONB(~state[63:32]),
     .EN(stateenp[3:0]),
@@ -105,9 +105,9 @@ assign uio_oe  = 8'hFF;
     );
 
 (* keep_hierarchy = "yes", keep = "yes" *) dac32module dac2 (
-    .Iout(dacout),
-    .VcascP(iref),
-    .VbiasP(bias),
+    .Iout(dacout[2]),
+    .VcascP(iref[5:4]),
+    .VbiasP(bias[5:4]),
     .ON(state[95:64]),
     .ONB(~state[95:64]),
     .EN(stateenp[3:0]),
@@ -117,9 +117,9 @@ assign uio_oe  = 8'hFF;
     );
 
 (* keep_hierarchy = "yes", keep = "yes" *) dac32module dac3 (
-    .Iout(dacout),
-    .VcascP(iref),
-    .VbiasP(bias),
+    .Iout(dacout[3]),
+    .VcascP(iref[7:6]),
+    .VbiasP(bias[7:6]),
     .ON(state[127:96]),
     .ONB(~state[127:96]),
     .EN(stateenp[3:0]),
@@ -134,7 +134,7 @@ assign uio_oe  = 8'hFF;
     .VbiasP(bias),
     .i_out(i_out),
     .i_in(i_in),
-    .VDDA(vdda[1:0])
+    .VDDA(vdda[7:0])
     );
 endmodule
 
