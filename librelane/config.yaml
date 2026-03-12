@@ -45,7 +45,11 @@ USE_SLANG: true
 
 # reserve space for the DAC
 FP_OBSTRUCTIONS: 
-- [360.2, 85, 400, 115.33]
+# dac obstruction height is 30.33
+- [360.2, 10, 400, 40.33]
+- [360.2, 60, 400, 90.33]
+- [360.2, 110, 400, 140.33]
+- [360.2, 160, 400, 190.33]
 - [400, 4, 497, 196]
 
 MACROS:
@@ -57,8 +61,17 @@ MACROS:
 #   nl:
 #     - dir::../src/dac32module.sv
     instances:
-      dac:
-        location: [362.2, 87]
+      dac0:
+        location: [362.2, 12]
+        orientation: N
+      dac1:
+        location: [362.2, 62]
+        orientation: N
+      dac2:
+        location: [362.2, 112]
+        orientation: N
+      dac3:
+        location: [362.2, 162]
         orientation: N
   analog_wires:
     gds:
@@ -88,7 +101,10 @@ FP_MACRO_HORIZONTAL_HALO: 2
 FP_MACRO_VERTICAL_HALO: 2
 
 PDN_MACRO_CONNECTIONS:
-  - "dac VPWR VGND VDD VSS"
+  - "dac0 VPWR VGND VDD VSS"
+  - "dac1 VPWR VGND VDD VSS"
+  - "dac2 VPWR VGND VDD VSS"
+  - "dac3 VPWR VGND VDD VSS"
 
 # select primary GDS streamout tool 
 PRIMARY_GDSII_STREAMOUT_TOOL: magic

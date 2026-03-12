@@ -35,8 +35,8 @@ module heichips25_pudding(
 
     logic datum, shift, transfer, dir;
 
-    logic[31:0] daisychain;
-    logic[31:0] state;
+    logic[127:0] daisychain;
+    logic[127:0] state;
 
     assign datum    = ui_in[0];
     assign shift    = ui_in[1];
@@ -63,14 +63,14 @@ module heichips25_pudding(
             end
             else if (shift)
             begin
-                daisychain <= {daisychain[30:0],datum};
+                daisychain <= {daisychain[126:0],datum};
             end
         end
     end
 
     
-assign uo_out  = daisychain[31:24];
-assign uio_out = state[31:24];
+assign uo_out  = daisychain[127:120];
+assign uio_out = state[127:120];
 assign uio_oe  = 8'hFF;
 
     digital4 digitalen (
@@ -80,12 +80,48 @@ assign uio_oe  = 8'hFF;
     );
 
 
-(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac (
+(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac0 (
     .Iout(dacout),
     .VcascP(iref),
     .VbiasP(bias),
     .ON(state[31:0]),
     .ONB(~state[31:0]),
+    .EN(stateenp[3:0]),
+    .ENB(stateenn[3:0]),
+    .VDD(VPWR),
+    .VSS(VGND)
+    );
+
+(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac1 (
+    .Iout(dacout),
+    .VcascP(iref),
+    .VbiasP(bias),
+    .ON(state[63:32]),
+    .ONB(~state[63:32]),
+    .EN(stateenp[3:0]),
+    .ENB(stateenn[3:0]),
+    .VDD(VPWR),
+    .VSS(VGND)
+    );
+
+(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac2 (
+    .Iout(dacout),
+    .VcascP(iref),
+    .VbiasP(bias),
+    .ON(state[95:64]),
+    .ONB(~state[95:64]),
+    .EN(stateenp[3:0]),
+    .ENB(stateenn[3:0]),
+    .VDD(VPWR),
+    .VSS(VGND)
+    );
+
+(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac3 (
+    .Iout(dacout),
+    .VcascP(iref),
+    .VbiasP(bias),
+    .ON(state[127:96]),
+    .ONB(~state[127:96]),
     .EN(stateenp[3:0]),
     .ENB(stateenn[3:0]),
     .VDD(VPWR),
