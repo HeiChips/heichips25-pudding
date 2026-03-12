@@ -1,0 +1,299 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 12/03/2026 00:57
+
+.SUBCKT dac2u16out2in VSS ENB[0]|ONB ON|ON[0] ONB|ONB[0] ONB|ONB[1] ONB|ONB[2]
++ ONB|ONB[3] ON|ON[4] ONB|ONB[4] ONB|ONB[5] ON|ON[6] ONB|ONB[6] ON|ON[7]
++ ONB|ONB[7] ON|ON[8] ONB|ONB[8] ONB|ONB[9] ONB|ONB[10] ONB|ONB[11] ONB|ONB[12]
++ ON|ON[13] ONB|ONB[13] ON|ON[14] ONB|ONB[14] ON|ON[15] ONB|ONB[15] ENB[1]|ONB
++ EN[0]|ON ON|ON[1] ON|ON[2] ON|ON[3] ON|ON[5] ON|ON[9] ON|ON[10] ON|ON[11]
++ ON|ON[12] EN[1]|ON VDD VcascP VbiasP Iout
+M$1 \$28 \$29 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$2 VSS \$28 \$29 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$3 \$30 \$31 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$4 VSS \$30 \$31 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$5 \$32 \$33 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$6 VSS \$32 \$33 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$7 \$34 \$35 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$8 VSS \$34 \$35 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$9 \$36 \$37 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$10 VSS \$36 \$37 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$11 \$38 \$39 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$12 VSS \$38 \$39 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$13 \$40 \$41 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$14 VSS \$40 \$41 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$15 \$42 \$43 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$16 VSS \$42 \$43 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$17 \$44 \$45 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$18 VSS \$44 \$45 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$19 \$46 \$47 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$20 VSS \$46 \$47 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$21 \$48 \$49 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$22 VSS \$48 \$49 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$23 \$50 \$51 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$24 VSS \$50 \$51 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$25 \$52 \$53 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$26 VSS \$52 \$53 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$27 \$54 \$55 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$28 VSS \$54 \$55 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$29 \$56 \$57 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$30 VSS \$56 \$57 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$31 \$58 \$59 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$32 VSS \$58 \$59 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$33 \$60 \$61 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$34 VSS \$60 \$61 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$35 \$62 \$63 VSS VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.162p AD=0.0855p
++ PS=2.16u PD=1.14u
+M$36 VSS \$62 \$63 VSS sg13_lv_nmos L=0.52u W=0.15u AS=0.0855p AD=0.162p
++ PS=1.14u PD=2.16u
+M$37 \$28 EN[0]|ON VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$38 VDD ENB[0]|ONB \$29 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$39 \$30 ON|ON[0] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$40 VDD ONB|ONB[0] \$31 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$41 \$32 ON|ON[1] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$42 VDD ONB|ONB[1] \$33 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$43 \$34 ON|ON[2] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$44 VDD ONB|ONB[2] \$35 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$45 \$36 ON|ON[3] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$46 VDD ONB|ONB[3] \$37 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$47 \$38 ON|ON[4] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$48 VDD ONB|ONB[4] \$39 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$49 \$40 ON|ON[5] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$50 VDD ONB|ONB[5] \$41 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$51 \$42 ON|ON[6] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$52 VDD ONB|ONB[6] \$43 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$53 \$44 ON|ON[7] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$54 VDD ONB|ONB[7] \$45 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$55 \$46 ON|ON[8] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$56 VDD ONB|ONB[8] \$47 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$57 \$48 ON|ON[9] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$58 VDD ONB|ONB[9] \$49 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$59 \$50 ON|ON[10] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$60 VDD ONB|ONB[10] \$51 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$61 \$52 ON|ON[11] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$62 VDD ONB|ONB[11] \$53 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$63 \$54 ON|ON[12] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$64 VDD ONB|ONB[12] \$55 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$65 \$56 ON|ON[13] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$66 VDD ONB|ONB[13] \$57 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$67 \$58 ON|ON[14] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$68 VDD ONB|ONB[14] \$59 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$69 \$60 ON|ON[15] VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$70 VDD ONB|ONB[15] \$61 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$71 \$62 EN[1]|ON VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.1725p AD=0.057p
++ PS=1.75u PD=0.68u
+M$72 VDD ENB[1]|ONB \$63 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.1725p
++ PS=0.68u PD=1.75u
+M$73 VcascP \$28 \$76 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$74 \$76 \$29 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$75 VcascP \$30 \$77 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$76 \$77 \$31 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$77 VcascP \$32 \$78 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$78 \$78 \$33 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$79 VcascP \$34 \$79 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$80 \$79 \$35 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$81 VcascP \$36 \$80 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$82 \$80 \$37 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$83 VcascP \$38 \$81 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$84 \$81 \$39 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$85 VcascP \$40 \$82 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$86 \$82 \$41 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$87 VcascP \$42 \$83 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$88 \$83 \$43 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$89 VcascP \$44 \$84 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$90 \$84 \$45 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$91 VcascP \$46 \$85 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$92 \$85 \$47 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$93 VcascP \$48 \$86 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$94 \$86 \$49 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$95 VcascP \$50 \$87 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$96 \$87 \$51 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$97 VcascP \$52 \$88 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$98 \$88 \$53 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p PS=0.68u
++ PD=1.28u
+M$99 VcascP \$54 \$89 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$100 \$89 \$55 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p
++ PS=0.68u PD=1.28u
+M$101 VcascP \$56 \$90 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$102 \$90 \$57 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p
++ PS=0.68u PD=1.28u
+M$103 VcascP \$58 \$91 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$104 \$91 \$59 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p
++ PS=0.68u PD=1.28u
+M$105 VcascP \$60 \$92 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$106 \$92 \$61 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p
++ PS=0.68u PD=1.28u
+M$107 VcascP \$62 \$93 VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.102p AD=0.057p
++ PS=1.28u PD=0.68u
+M$108 \$93 \$63 VDD VDD sg13_lv_pmos L=0.13u W=0.3u AS=0.057p AD=0.102p
++ PS=0.68u PD=1.28u
+M$109 VcascP VcascP VbiasP VDD sg13_lv_pmos L=0.15u W=11.7u AS=3.978p AD=3.978p
++ PS=24.76u PD=24.76u
+M$110 VDD VbiasP \$97 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$111 \$97 \$76 VbiasP VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$112 VDD VbiasP \$99 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$113 \$99 \$77 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$114 VDD VbiasP \$101 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$115 \$101 \$78 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$116 VDD VbiasP \$102 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$117 \$102 \$79 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$118 VDD VbiasP \$104 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$119 \$104 \$80 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$120 VDD VbiasP \$106 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$121 \$106 \$81 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$122 VDD VbiasP \$107 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$123 \$107 \$82 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$124 VDD VbiasP \$109 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$125 \$109 \$83 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$126 VDD VbiasP \$111 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$127 \$111 \$84 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$128 VDD VbiasP \$112 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$129 \$112 \$85 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$130 VDD VbiasP \$113 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$131 \$113 \$86 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$132 VDD VbiasP \$110 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$133 \$110 \$87 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$134 VDD VbiasP \$108 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$135 \$108 \$88 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$136 VDD VbiasP \$105 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$137 \$105 \$89 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$138 VDD VbiasP \$103 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$139 \$103 \$90 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$140 VDD VbiasP \$100 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$141 \$100 \$91 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$142 VDD VbiasP \$98 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$143 \$98 \$92 Iout VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+M$144 VDD VbiasP \$96 VDD sg13_lv_pmos L=5u W=1.45u AS=0.493p AD=0.20875p
++ PS=3.58u PD=1.75u
+M$145 \$96 \$93 VbiasP VDD sg13_lv_pmos L=0.6u W=1.2u AS=0.20875p AD=0.516p
++ PS=1.75u PD=3.26u
+.ENDS dac2u16out2in
