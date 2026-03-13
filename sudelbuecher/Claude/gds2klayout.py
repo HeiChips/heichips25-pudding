@@ -245,6 +245,12 @@ class ARef:
     angle:         float = 0.0
     x_reflection:  bool = False
 
+# GDS PRESENTATION bits: [5:4]=vert(0=top,1=mid,2=bot), [3:2]=horiz(0=left,1=ctr,2=right), [1:0]=font
+# KLayout HAlign:         0=left, 1=center, 2=right  (same numbering as GDS horiz)
+# KLayout VAlign:         0=bottom, 1=center, 2=top   (inverted from GDS vert)
+_GDS_HALIGN = {0: 0, 1: 1, 2: 2}          # left=left, center=center, right=right
+_GDS_VALIGN = {0: 2, 1: 1, 2: 0}          # GDS top->KL top=2, mid->1, bot->KL bot=0
+
 @dataclass
 class Text:
     layer:    int
@@ -254,6 +260,8 @@ class Text:
     strans:   int = 0
     mag:      float = 1.0
     angle:    float = 0.0
+    halign:   int = 0   # KLayout HAlign value (0=left)
+    valign:   int = 0   # KLayout VAlign value (0=bottom)
 
 @dataclass
 class Structure:
@@ -423,7 +431,7 @@ _IGNORED_RECORDS = frozenset({
     "FORMAT", "MASK", "ENDMASKS", "LIBSECUR",
     # Element decorations: accepted but not translated to KLayout output
     "ELFLAGS", "BGNEXTN", "ENDEXTN", "PROPATTR", "PROPVALUE",
-    "NODETYPE", "BOXTYPE", "TEXTNODE", "PRESENTATION",
+    "NODETYPE", "BOXTYPE", "TEXTNODE",
     # Rarely-used element types: accepted, silently skipped
     "NODE", "BOX",
 })
@@ -578,6 +586,19 @@ class GdsStateMachine:
     def _on_angle(self, items):
         self._cur_elem["angle"] = items[0]
 
+    def _on_presentation(self, items):
+        bits  = items[0]
+        font  =  bits        & 0x0003   # bits 1:0  (ignored in output)
+        horiz = (bits >> 2)  & 0x0003   # bits 3:2
+        vert  = (bits >> 4)  & 0x0003   # bits 5:4
+        # Reject reserved / undefined values per closed-world grammar
+        if horiz > 2:
+            raise ParseError(f"PRESENTATION: invalid horizontal justification {horiz}")
+        if vert > 2:
+            raise ParseError(f"PRESENTATION: invalid vertical justification {vert}")
+        self._cur_elem["halign"] = _GDS_HALIGN[horiz]
+        self._cur_elem["valign"] = _GDS_VALIGN[vert]
+
     def _on_string(self, items):
         self._cur_elem["string"] = items[0]
 
@@ -629,6 +650,8 @@ class GdsStateMachine:
                 strans   = e.get("strans", 0),
                 mag      = e.get("mag", 1.0),
                 angle    = e.get("angle", 0.0),
+                halign   = e.get("halign", 0),
+                valign   = e.get("valign", 0),
             )
         else:
             raise FsmError(f"Unknown element type {t!r}")  # should be unreachable
@@ -687,12 +710,134 @@ def _safe_var(name: str) -> str:
     return "".join(result)
 
 
-def generate_klayout_script(lib: Library) -> str:
+# ---------------------------------------------------------------------------
+# 9a. Layer-map parser  (strict grammar, no shotgun parsing)
+# ---------------------------------------------------------------------------
+# Map file format (one entry per line):
+#
+#   <layer> <datatype> <name>
+#
+# Formal grammar (EBNF):
+#   map_file   = { line } EOF
+#   line       = blank_line | comment_line | entry_line
+#   blank_line = *WS LF
+#   comment_line = *WS "#" *<any> LF
+#   entry_line = WS* uint WS+ uint WS+ name WS* LF
+#   uint       = DIGIT+                            ; 0..4095 inclusive
+#   name       = LETTER_OR_UNDERSCORE *IDENT_CHAR  ; Python identifier rules
+#
+# Anything that deviates from this grammar raises LayerMapError immediately.
+# The parser is single-pass, line-by-line, with no backtracking.
+
+class LayerMapError(GdsError):
+    """Raised when the layer-map file violates the grammar."""
+
+# Compiled patterns for the grammar terminals — defined once, used per line.
+import re as _re
+_BLANK_RE   = _re.compile(r'^\s*(#.*)?$')
+_ENTRY_RE   = _re.compile(
+    r'^\s*'
+    r'(?P<layer>\d+)'          # uint: layer number
+    r'\s+'
+    r'(?P<datatype>\d+)'       # uint: datatype
+    r'\s+'
+    r'(?P<name>[A-Za-z_][A-Za-z0-9_]*)'  # name: valid Python identifier
+    r'\s*$'
+)
+_UINT_MAX = 4095   # GDS layer/datatype are 12-bit fields per spec §2.5
+
+def parse_layer_map(path: str) -> dict:
+    """
+    Parse a layer-map file and return {(layer, datatype): name}.
+
+    Grammar enforcement:
+      - Every non-blank, non-comment line MUST match _ENTRY_RE exactly.
+        Any extra tokens, non-identifier names, or unrecognised syntax
+        raises LayerMapError (no silent skip, no partial acceptance).
+      - Layer and datatype values must be in [0, _UINT_MAX].
+      - Duplicate (layer, datatype) keys raise LayerMapError.
+      - Name must satisfy Python identifier rules (enforced by _ENTRY_RE
+        plus a str.isidentifier() post-check as defence-in-depth).
+    """
+    layer_map: dict = {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except OSError as e:
+        raise LayerMapError(f"Cannot open layer map {path!r}: {e}") from e
+
+    for lineno, raw in enumerate(lines, start=1):
+        line = raw.rstrip("\n")
+
+        if _BLANK_RE.match(line):
+            continue   # blank or comment — accepted, no data extracted
+
+        m = _ENTRY_RE.match(line)
+        if not m:
+            raise LayerMapError(
+                f"{path}:{lineno}: line does not match grammar "
+                f"'<layer> <datatype> <name>' — got: {line!r}"
+            )
+
+        layer    = int(m.group("layer"))
+        datatype = int(m.group("datatype"))
+        name     = m.group("name")
+
+        # Range check — closed-world on numeric values
+        if layer > _UINT_MAX:
+            raise LayerMapError(
+                f"{path}:{lineno}: layer {layer} exceeds maximum {_UINT_MAX}"
+            )
+        if datatype > _UINT_MAX:
+            raise LayerMapError(
+                f"{path}:{lineno}: datatype {datatype} exceeds maximum {_UINT_MAX}"
+            )
+
+        # Defence-in-depth: verify name is a valid Python identifier
+        if not name.isidentifier():
+            raise LayerMapError(
+                f"{path}:{lineno}: name {name!r} is not a valid Python identifier"
+            )
+
+        key = (layer, datatype)
+        if key in layer_map:
+            raise LayerMapError(
+                f"{path}:{lineno}: duplicate entry for layer={layer} datatype={datatype} "
+                f"(previously defined as {layer_map[key]!r})"
+            )
+
+        layer_map[key] = name
+
+    return layer_map
+
+
+def _layer_expr(layer: int, datatype: int, layer_map: dict) -> str:
+    """
+    Return the KLayout Python expression to obtain a layer index.
+
+    If (layer, datatype) is in layer_map, emit:
+        layout.layer(pya.LayerInfo.from_name("<name>"))
+    Otherwise fall back to the always-correct numeric form:
+        layout.layer(<layer>, <datatype>)
+
+    Both forms are unambiguous; the named form simply makes the output
+    more readable when a layer map is supplied.
+    """
+    name = layer_map.get((layer, datatype))
+    if name:
+        return f'layout.layer("{name}")'
+    return f"layout.layer({layer}, {datatype})"
+
+
+def generate_klayout_script(lib: Library, layer_map: dict = None) -> str:
     """
     Produce a KLayout Python (pya) script that faithfully recreates
     the library contents.  The output is minimal: no comments beyond
     what identifies each section, no redundant calls.
     """
+    if layer_map is None:
+        layer_map = {}
+
     lines = []
     w = lines.append
 
@@ -726,7 +871,8 @@ def generate_klayout_script(lib: Library) -> str:
                     f"pya.DPoint({_fmt_float(x)}, {_fmt_float(y)})"
                     for x, y in elem.xy
                 )
-                w(f"{var}.shapes(layout.layer({elem.layer}, {elem.datatype})).insert(")
+                layer_expr = _layer_expr(elem.layer, elem.datatype, layer_map)
+                w(f"{var}.shapes({layer_expr}).insert(")
                 w(f"    pya.DPolygon([{pts}]))")
 
             elif isinstance(elem, Path):
@@ -740,7 +886,8 @@ def generate_klayout_script(lib: Library) -> str:
                     ext = {1: elem.width / 2, 2: elem.width / 2}.get(elem.pathtype, 0)
                     w(f"_path.bgn_ext = {_fmt_float(ext)}")
                     w(f"_path.end_ext = {_fmt_float(ext)}")
-                w(f"{var}.shapes(layout.layer({elem.layer}, {elem.datatype})).insert(_path)")
+                layer_expr = _layer_expr(elem.layer, elem.datatype, layer_map)
+                w(f"{var}.shapes({layer_expr}).insert(_path)")
 
             elif isinstance(elem, SRef):
                 ref_var = cell_vars.get(elem.sname, f'layout.cell("{elem.sname}")')
@@ -779,14 +926,17 @@ def generate_klayout_script(lib: Library) -> str:
             elif isinstance(elem, Text):
                 ox, oy = elem.xy
                 # DText requires DTrans (not DCplxTrans).
-                # DTrans rotation is 0/1/2/3 (multiples of 90°).
-                # GDS angle is degrees; snap to nearest 90° quadrant.
+                # DTrans rotation is 0/1/2/3 (multiples of 90°); snap GDS float angle.
                 rot    = int(round(elem.angle / 90.0)) % 4
                 mirror = "True" if bool(elem.strans & 0x8000) else "False"
                 text_escaped = elem.string.replace('"', '\\"')
-                w(f"{var}.shapes(layout.layer({elem.layer}, {elem.texttype})).insert(")
+                # DText(string, trans, height, halign, valign)
+                # height=0 means "use default"; halign/valign are pya.*Align enums (int-compatible)
+                layer_expr = _layer_expr(elem.layer, elem.texttype, layer_map)
+                w(f"{var}.shapes({layer_expr}).insert(")
                 w(f"    pya.DText(\"{text_escaped}\",")
-                w(f"              pya.DTrans({rot}, {mirror}, pya.DVector({_fmt_float(ox)}, {_fmt_float(oy)}))))")
+                w(f"              pya.DTrans({rot}, {mirror}, pya.DVector({_fmt_float(ox)}, {_fmt_float(oy)})),")
+                w(f"              0, pya.HAlign.from_int({elem.halign}), pya.VAlign.from_int({elem.valign})))")
 
         w("")
 
@@ -802,24 +952,46 @@ def generate_klayout_script(lib: Library) -> str:
 # ---------------------------------------------------------------------------
 
 def main():
-    if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <input.gds> [output.py]", file=sys.stderr)
-        sys.exit(1)
+    import argparse
+    ap = argparse.ArgumentParser(
+        description="Translate a GDSII file to a KLayout Python (pya) script."
+    )
+    ap.add_argument("input",  help="Input .gds file")
+    ap.add_argument("output", nargs="?", help="Output .py file (default: <input>_klayout.py)")
+    ap.add_argument(
+        "--layer-map", metavar="FILE",
+        help=(
+            "Layer-name map file.  Format: one entry per line, "
+            "each line being '<layer> <datatype> <name>' where "
+            "<name> is a Python identifier.  Blank lines and "
+            "lines starting with # are ignored.  "
+            "When supplied, shapes on mapped layers use "
+            "layout.layer(\"name\") instead of layout.layer(n, d)."
+        ),
+    )
+    args = ap.parse_args()
 
-    in_path = sys.argv[1]
-    if len(sys.argv) >= 3:
-        out_path = sys.argv[2]
-    else:
-        stem = os.path.splitext(os.path.basename(in_path))[0]
-        out_path = f"{stem}_klayout.py"
+    in_path  = args.input
+    out_path = args.output or (
+        os.path.splitext(os.path.basename(in_path))[0] + "_klayout.py"
+    )
+
+    layer_map: dict = {}
+    if args.layer_map:
+        try:
+            layer_map = parse_layer_map(args.layer_map)
+        except LayerMapError as e:
+            print(f"Layer-map error: {e}", file=sys.stderr)
+            sys.exit(3)
+        print(f"Layer map: {len(layer_map)} entries loaded from {args.layer_map!r}")
 
     try:
         lib = parse_gds(in_path)
     except (ParseError, FsmError) as e:
-        print(f"Error: {e}", file=sys.stderr)
+        print(f"Parse error: {e}", file=sys.stderr)
         sys.exit(2)
 
-    script = generate_klayout_script(lib)
+    script = generate_klayout_script(lib, layer_map=layer_map)
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(script)

@@ -1,0 +1,24 @@
+# SG13G2 layer map  (layer datatype name)
+# Diffusion / implant
+1   0   Activ
+5   0   NWell
+6   0   pSD
+8   0   GatPoly
+# Metal interconnect
+10  0   Metal1
+14  0   Metal2
+19  0   Metal3
+29  0   Metal4
+30  0   Metal5
+31  0   TopMetal1
+49  0   TopMetal2
+# Contacts / vias
+50  0   Cont
+63  0   Via1
+66  0   Via2
+67  0   Via3
+# Label datatypes
+8   25  GatPoly_label
+10  25  Metal1_label
+30  25  Metal5_label
+67  25  Via3_label
