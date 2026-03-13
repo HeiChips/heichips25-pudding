@@ -245,11 +245,16 @@ class ARef:
     angle:         float = 0.0
     x_reflection:  bool = False
 
-# GDS PRESENTATION bits: [5:4]=vert(0=top,1=mid,2=bot), [3:2]=horiz(0=left,1=ctr,2=right), [1:0]=font
-# KLayout HAlign:         0=left, 1=center, 2=right  (same numbering as GDS horiz)
-# KLayout VAlign:         0=bottom, 1=center, 2=top   (inverted from GDS vert)
-_GDS_HALIGN = {0: 0, 1: 1, 2: 2}          # left=left, center=center, right=right
-_GDS_VALIGN = {0: 2, 1: 1, 2: 0}          # GDS top->KL top=2, mid->1, bot->KL bot=0
+# GDS PRESENTATION word (uint16) encodes a combined anchor:
+#   horiz = word % 4    (0=left, 1=center, 2=right)
+#   vert  = word // 4   (0=top,  1=middle, 2=bottom)
+# This is NOT a pair of independent 2-bit fields; it is a single anchor index.
+# Verified against gdspy source (Label._anchor dict) and Calma spec §2.5.4.22.
+#
+# KLayout HAlign: 0=left, 1=center, 2=right  (same numbering)
+# KLayout VAlign: 0=bottom, 1=center, 2=top   (inverted from GDS vert)
+_GDS_HALIGN = {0: 0, 1: 1, 2: 2}          # direct mapping
+_GDS_VALIGN = {0: 2, 1: 1, 2: 0}          # GDS top(0)->KL VAlignTop(2), etc.
 
 @dataclass
 class Text:
@@ -587,15 +592,22 @@ class GdsStateMachine:
         self._cur_elem["angle"] = items[0]
 
     def _on_presentation(self, items):
-        bits  = items[0]
-        font  =  bits        & 0x0003   # bits 1:0  (ignored in output)
-        horiz = (bits >> 2)  & 0x0003   # bits 3:2
-        vert  = (bits >> 4)  & 0x0003   # bits 5:4
-        # Reject reserved / undefined values per closed-world grammar
+        word  = items[0]   # uint16 anchor: horiz = word % 4, vert = word // 4
+        horiz = word % 4   # 0=left, 1=center, 2=right
+        vert  = word // 4  # 0=top,  1=middle, 2=bottom
+        # Closed-world: reject values outside the 3x3 anchor grid.
+        # Valid range: word in 0..10 (nw=0 .. se=10), excluding 3,7,11+ which
+        # are undefined in the Calma spec.
         if horiz > 2:
-            raise ParseError(f"PRESENTATION: invalid horizontal justification {horiz}")
+            raise ParseError(
+                f"PRESENTATION: word={word:#06x} gives horiz={horiz}, "
+                f"which is outside the defined range [0,2]"
+            )
         if vert > 2:
-            raise ParseError(f"PRESENTATION: invalid vertical justification {vert}")
+            raise ParseError(
+                f"PRESENTATION: word={word:#06x} gives vert={vert}, "
+                f"which is outside the defined range [0,2]"
+            )
         self._cur_elem["halign"] = _GDS_HALIGN[horiz]
         self._cur_elem["valign"] = _GDS_VALIGN[vert]
 
@@ -811,22 +823,51 @@ def parse_layer_map(path: str) -> dict:
     return layer_map
 
 
-def _layer_expr(layer: int, datatype: int, layer_map: dict) -> str:
-    """
-    Return the KLayout Python expression to obtain a layer index.
-
-    If (layer, datatype) is in layer_map, emit:
-        layout.layer(pya.LayerInfo.from_name("<name>"))
-    Otherwise fall back to the always-correct numeric form:
-        layout.layer(<layer>, <datatype>)
-
-    Both forms are unambiguous; the named form simply makes the output
-    more readable when a layer map is supplied.
-    """
+def _layer_varname(layer: int, datatype: int, layer_map: dict) -> str:
+    """Return the Python variable name for this (layer, datatype) index."""
     name = layer_map.get((layer, datatype))
     if name:
-        return f'layout.layer("{name}")'
-    return f"layout.layer({layer}, {datatype})"
+        return f"L_{name}"
+    return f"L_{layer}_{datatype}"
+
+
+def _layer_expr(layer: int, datatype: int, layer_map: dict) -> str:
+    """Return the pre-declared variable name that holds the KLayout layer index."""
+    return _layer_varname(layer, datatype, layer_map)
+
+
+def _emit_layer_table(lib, layer_map: dict) -> list:
+    """
+    Collect every (layer, datatype) used in lib; return script lines that
+    declare one Python variable per layer.
+
+    Named  (in map): L_Metal1 = layout.layer(pya.LayerInfo(10, 0, "Metal1"))
+    Numeric (fallback): L_10_0 = layout.layer(10, 0)
+
+    pya.LayerInfo(layer, datatype, name) creates a named layer with correct
+    GDS numbers — this is what makes XOR / diff operations work correctly,
+    because both layouts will carry identical LayerInfo objects.
+    """
+    used: set = set()
+    for struct in lib.structures:
+        for elem in struct.elements:
+            if isinstance(elem, (Boundary, Path)):
+                used.add((elem.layer, elem.datatype))
+            elif isinstance(elem, Text):
+                used.add((elem.layer, elem.texttype))
+
+    out = ["# --- layer index variables ---"]
+    for (layer, datatype) in sorted(used):
+        var  = _layer_varname(layer, datatype, layer_map)
+        name = layer_map.get((layer, datatype))
+        if name:
+            out.append(
+                f'L_{name} = layout.layer(pya.LayerInfo({layer}, {datatype}, "{name}"))'
+            )
+        else:
+            out.append(f"L_{layer}_{datatype} = layout.layer({layer}, {datatype})")
+    out.append("")
+    return out
 
 
 def generate_klayout_script(lib: Library, layer_map: dict = None) -> str:
@@ -844,10 +885,15 @@ def generate_klayout_script(lib: Library, layer_map: dict = None) -> str:
     w("import pya")
     w("")
     w("layout = pya.Layout()")
+    w("")
     # KLayout dbu = size of one database integer in microns
     dbu_um = lib.precision * 1e6
     w(f"layout.dbu = {_fmt_float(dbu_um)}")   # e.g. 0.001 for 1-nm grid
     w("")
+
+    # Emit one layer-index variable per (layer, datatype) used in the design
+    for line in _emit_layer_table(lib, layer_map):
+        w(line)
 
     # Build a cell-name → KLayout variable mapping
     cell_vars = {s.name: f"cell_{_safe_var(s.name)}" for s in lib.structures}
@@ -925,19 +971,22 @@ def generate_klayout_script(lib: Library, layer_map: dict = None) -> str:
 
             elif isinstance(elem, Text):
                 ox, oy = elem.xy
-                # DText requires DTrans (not DCplxTrans).
-                # DTrans rotation is 0/1/2/3 (multiples of 90°); snap GDS float angle.
+                # Use integer-coordinate pya.Text (not DText).
+                # KLayout forum confirms DText.halign/valign are unreliable
+                # in several versions; Text (integer coords) works correctly.
                 rot    = int(round(elem.angle / 90.0)) % 4
                 mirror = "True" if bool(elem.strans & 0x8000) else "False"
                 text_escaped = elem.string.replace('"', '\\"')
-                # DText(string, trans, height, halign, valign)
-                # height=0 means "use default"; halign/valign are pya.*Align enums (int-compatible)
                 layer_expr = _layer_expr(elem.layer, elem.texttype, layer_map)
-                w(f"{var}.shapes({layer_expr}).insert(")
-                w(f"    pya.DText(\"{text_escaped}\",")
-                w(f"              pya.DTrans({rot}, {mirror}, pya.DVector({_fmt_float(ox)}, {_fmt_float(oy)})),")
-                w(f"              0, pya.HAlign.from_int({elem.halign}), pya.VAlign.from_int({elem.valign})))")
-
+                ix = int(round(ox / dbu_um))
+                iy = int(round(oy / dbu_um))
+                w(f'_txt = pya.Text(\"{text_escaped}\",')
+                w(f'               pya.Trans({rot}, {mirror}, pya.Vector({ix}, {iy})))')
+                if elem.halign != 0:
+                    w(f"_txt.halign = {elem.halign}")
+                if elem.valign != 0:
+                    w(f"_txt.valign = {elem.valign}")
+                w(f"{var}.shapes({layer_expr}).insert(_txt)")
         w("")
 
     w("# Save")
