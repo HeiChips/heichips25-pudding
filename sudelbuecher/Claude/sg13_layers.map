@@ -2,8 +2,13 @@
 # Diffusion / implant
 1   0   Activ
 5   0   NWell
+5   2   NWell_pin
 6   0   pSD
 8   0   GatPoly
+8   2   GatPoly_pin
+40  0   DNWell
+44  0   hvdifftap
+51  0   FILL
 # Metal interconnect
 10  0   Metal1
 14  0   Metal2
@@ -22,3 +27,5 @@
 10  25  Metal1_label
 30  25  Metal5_label
 67  25  Via3_label
+# Boundary
+189 4   prBoundary
