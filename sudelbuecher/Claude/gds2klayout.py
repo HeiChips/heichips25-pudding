@@ -778,13 +778,15 @@ def generate_klayout_script(lib: Library) -> str:
 
             elif isinstance(elem, Text):
                 ox, oy = elem.xy
-                angle  = _fmt_float(elem.angle)
-                mag    = _fmt_float(elem.mag)
+                # DText requires DTrans (not DCplxTrans).
+                # DTrans rotation is 0/1/2/3 (multiples of 90°).
+                # GDS angle is degrees; snap to nearest 90° quadrant.
+                rot    = int(round(elem.angle / 90.0)) % 4
                 mirror = "True" if bool(elem.strans & 0x8000) else "False"
                 text_escaped = elem.string.replace('"', '\\"')
                 w(f"{var}.shapes(layout.layer({elem.layer}, {elem.texttype})).insert(")
-                w(f"    pya.DText(\"{text_escaped}\", pya.DCplxTrans({mag}, {angle}, {mirror},")
-                w(f"              pya.DVector({_fmt_float(ox)}, {_fmt_float(oy)}))))")
+                w(f"    pya.DText(\"{text_escaped}\",")
+                w(f"              pya.DTrans({rot}, {mirror}, pya.DVector({_fmt_float(ox)}, {_fmt_float(oy)}))))")
 
         w("")
 
