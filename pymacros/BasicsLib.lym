@@ -1,18 +1,18 @@
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;klayout-macro&gt;
- &lt;description&gt;BasicsLib - FEOL contacts, PMOS buffer cap&lt;/description&gt;
- &lt;version/&gt;
- &lt;category&gt;pymacros&lt;/category&gt;
- &lt;prolog/&gt;&lt;epilog/&gt;&lt;doc/&gt;
- &lt;autorun&gt;true&lt;/autorun&gt;
- &lt;autorun-early&gt;false&lt;/autorun-early&gt;
- &lt;priority&gt;0&lt;/priority&gt;
- &lt;shortcut/&gt;
- &lt;show-in-menu&gt;false&lt;/show-in-menu&gt;
- &lt;group-name/&gt;&lt;menu-path/&gt;
- &lt;interpreter&gt;python&lt;/interpreter&gt;
- &lt;dsl-interpreter-name/&gt;
- &lt;text&gt;# -*- coding: utf-8 -*-
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>BasicsLib - FEOL contacts, PMOS buffer cap</description>
+ <version/>
+ <category>pymacros</category>
+ <prolog/><epilog/><doc/>
+ <autorun>true</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/><menu-path/>
+ <interpreter>python</interpreter>
+ <dsl-interpreter-name/>
+ <text># -*- coding: utf-8 -*-
 import pya
 
 
@@ -71,7 +71,7 @@ class feol_contact(pya.PCellDeclarationHelper):
 # ── PCell: pmos_buffer_cap ────────────────────────────────────────────────────
 #
 # Translated directly from IHP pmosHV_code.py using sg13g2_tech.json.
-# ng=1, W &gt;= cont_act_min. pmosHV placed rot=90 mirrorTrue:
+# ng=1, W >= cont_act_min. pmosHV placed rot=90 mirrorTrue:
 #   cell_x = y_internal,  cell_y = x_internal
 #
 # sg13g2_tech.json values used:
@@ -83,7 +83,7 @@ class feol_contact(pya.PCellDeclarationHelper):
 #   xcb=0.07  xce=0.23  xpb=0.34(=gate_y0)  xcb2=L+0.45  xce2=L+0.61  xde=L+0.68
 #   m1_ext=0.44  act_ext=0.51
 #   gate_y1 = 0.34 + L
-#   NWell/TGO enclose outer tie active =&gt; y spans [-(act_ext+nw_c1), xde+act_ext+nw_c1]
+#   NWell/TGO enclose outer tie active => y spans [-(act_ext+nw_c1), xde+act_ext+nw_c1]
 
 class pmos_buffer_cap(pya.PCellDeclarationHelper):
 
@@ -221,5 +221,5 @@ class BasicsLib(pya.Library):
         self.layout().register_pcell("pmos_buffer_cap", pmos_buffer_cap())
         self.register("BasicsLib")
 
-BasicsLib()&lt;/text&gt;
-&lt;/klayout-macro&gt;
+BasicsLib()</text>
+</klayout-macro>
