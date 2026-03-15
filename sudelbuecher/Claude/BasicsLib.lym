@@ -200,8 +200,8 @@ class pmos_buffer_cap(pya.PCellDeclarationHelper):
         # ── FEOL contact bars ─────────────────────────────────────────────
         place_feol(0,             gate_y0-780,  w)            # source
         place_feol(0,             gate_y1+620,  w)            # drain
-        place_feol(gate_x0-720,  gate_y0,  w, rot=90, mirror=True)   # gate L
-        place_feol(gate_x1-120,  gate_y0,  w, rot=90, mirror=True)   # gate R
+        place_feol(-380,        gate_y0,  l, rot=90, mirror=True)   # gate L  (fixed x, length=l)
+        place_feol(w+220,         gate_y0,  l, rot=90, mirror=True)   # gate R  (fixed x=W+220, length=l)
 
 
 # ── PCell: pmos_cap_array ─────────────────────────────────────────────────────
