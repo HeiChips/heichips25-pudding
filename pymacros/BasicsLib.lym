@@ -124,9 +124,9 @@ class pmos_buffer_cap(pya.PCellDeclarationHelper):
 
         def place_feol(ox, oy, l_nm, rot=0, mirror=False):
             """Instantiate a feol_contact pcell from this same library."""
-            # Retrieve the pcell declaration from our own library layout
             pcell_decl = self.layout.pcell_declaration("FEOL contacts")
-            params = {
+            # Build parameter list in declaration order
+            param_map = {
                 "l":         l_nm,
                 "h":         160,
                 "ly_active": self.ly_active,
@@ -134,6 +134,7 @@ class pmos_buffer_cap(pya.PCellDeclarationHelper):
                 "ly_co":     self.ly_co,
                 "ly_m1":     self.ly_m1,
             }
+            params = [param_map.get(p.name, p.default) for p in pcell_decl.get_parameters()]
             pcell_var  = self.layout.add_pcell_variant(pcell_decl, params)
             t = pya.CplxTrans(1.0, rot, mirror, u(ox), u(oy))
             self.cell.insert(pya.CellInstArray(pcell_var, t))
