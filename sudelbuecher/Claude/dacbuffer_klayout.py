@@ -245,7 +245,7 @@ cell_pmos_buffer_cap.shapes(L_NWell).insert(
 cell_dacbuffer.insert(pya.DCellInstArray(
     cell_pmos_buffer_cap.cell_index(),
     pya.DCplxTrans(1, 0, False,
-                  pya.DVector(3.725, 16.39))))
+                  pya.DVector(13.725, 16.39))))
 _path = pya.DPath([pya.DPoint(0, 0.25), pya.DPoint(37.8, 0.25)], 0.5)
 cell_dacbuffer.shapes(L_GatPoly).insert(_path)
 _path = pya.DPath([pya.DPoint(0, 13.095), pya.DPoint(37.8, 13.095)], 0.7)
