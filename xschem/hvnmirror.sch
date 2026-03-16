@@ -132,11 +132,11 @@ N 920 -120 1020 -120 {lab=VSS}
 N 420 -120 440 -120 {lab=VSS}
 N 80 -120 120 -120 {lab=VSS}
 C {title.sym} 160 0 0 0 {name=l1 author="Christoph Maier"}
-C {sg13g2_pr/sg13_hv_nmos.sym} 160 -200 0 1 {name=M1
+C {sg13g2_pr/sg13_hv_nmos.sym} 160 -200 0 1 {name=M2[7:0]
 l=10u
 w=2u
 ng=1
-m=8
+m=1
 model=sg13_hv_nmos
 spiceprefix=X
 }
@@ -148,11 +148,11 @@ m=1
 model=sg13_hv_nmos
 spiceprefix=X
 }
-C {sg13g2_pr/sg13_hv_nmos.sym} 160 -320 0 1 {name=M2
+C {sg13g2_pr/sg13_hv_nmos.sym} 160 -320 0 1 {name=M1[7:0]
 l=5u
 w=2u
 ng=1
-m=8
+m=1
 model=sg13_hv_nmos
 spiceprefix=X
 }
