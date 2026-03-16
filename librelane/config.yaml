@@ -50,7 +50,7 @@ FP_OBSTRUCTIONS:
 - [450, 4, 497, 196]
 
 MACROS:
-  dac32module:
+  dac4x32module:
     gds:
       - dir::../gds/dac4x32module.gds
     lef:
@@ -61,7 +61,7 @@ MACROS:
       dac:
         location: [141.3, 87]
         orientation: N
-  analog_wires:
+  input_mirror:
     gds:
       - dir::../gds/input_mirror.gds
     lef:

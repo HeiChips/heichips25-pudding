@@ -24,20 +24,22 @@ module heichips25_pudding(
 //(* keep = "yes" *) wire VPWR;
 //(* keep = "yes" *) wire VGND;
    
-    wire [3:0] iref;
-    wire [3:0] bias;
-    wire [1:0] dacout;
+    wire [7:0] iref;
+    wire       dacout;
     wire [3:0] vdda;
+    wire [1:0] vssa;
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, uio_in[7:0], ui_in[7:6], vdda[3:0], iref[3:0], bias[3:0], dacout[1:0]};
+    wire _unused = &{ena, uio_in[7:0], ui_in[7:6], vdda[3:0], vssa[1:0], iref[7:0], dacout};
 
     logic[3:0] dacen0, dacenp0, dacenn0;
     logic[3:0] dacen1, dacenp1, dacenn1;
+    logic[3:0] dacen2, dacenp2, dacenn2;
+    logic[3:0] dacen3, dacenp3, dacenn3;
 
     logic datum, shift, transfer, dir;
 
-    logic[63:0] daisychain;
-    logic[63:0] state;
+    logic[127:0] daisychain;
+    logic[127:0] state;
 
     assign datum    = ui_in[0];
     assign shift    = ui_in[1];
@@ -46,6 +48,8 @@ module heichips25_pudding(
 
     assign dacen0 = {4{ui_in[4]}};
     assign dacen1 = {4{ui_in[5]}};
+    assign dacen2 = {4{ui_in[6]}};
+    assign dacen3 = {4{ui_in[7]}};
 
     always_ff @(posedge clk or negedge rst_n) 
     begin
@@ -65,14 +69,14 @@ module heichips25_pudding(
             end
             else if (shift)
             begin
-                daisychain <= {daisychain[62:0],datum};
+                daisychain <= {daisychain[126:0],datum};
             end
         end
     end
 
     
-assign uo_out  = daisychain[63:56];
-assign uio_out = state[63:56];
+assign uo_out  = daisychain[127:120];
+assign uio_out = state[127:120];
 assign uio_oe  = 8'hFF;
 
     digital4 digitalen0 (
@@ -87,38 +91,37 @@ assign uio_oe  = 8'hFF;
     .outn(dacenn1[3:0])
     );
 
-
-(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac0 (
-    .Iout(dacout[0]),
-    .VcascP(iref[1:0]),
-    .VbiasP(bias[1:0]),
-    .ON(state[31:0]),
-    .ONB(~state[31:0]),
-    .EN(dacenp0[3:0]),
-    .ENB(dacenn0[3:0]),
-    .VDD(VPWR),
-    .VSS(VGND)
+    digital4 digitalen2 (
+    .in(dacen2[3:0]),
+    .outp(dacenp2[3:0]),
+    .outn(dacenn2[3:0])
     );
 
-(* keep_hierarchy = "yes", keep = "yes" *) dac32module dac1 (
-    .Iout(dacout[1]),
-    .VcascP(iref[3:2]),
-    .VbiasP(bias[3:2]),
-    .ON(state[63:32]),
-    .ONB(~state[63:32]),
-    .EN(dacenp1[3:0]),
-    .ENB(dacenn1[3:0]),
-    .VDD(VPWR),
-    .VSS(VGND)
+    digital4 digitalen3 (
+    .in(dacen3[3:0]),
+    .outp(dacenp3[3:0]),
+    .outn(dacenn3[3:0])
     );
 
-(* keep_hierarchy = "yes", keep = "yes" *) analog_wires wires (
+
+(* keep_hierarchy = "yes", keep = "yes" *) dac4x32module dac (
     .Iout(dacout),
-    .VcascP(iref),
-    .VbiasP(bias),
+    .VbiasP(iref[7:0]),
+    .ON(state[127:0]),
+    .ONB(~state[127:0]),
+    .EN({dacenp0[3:0],dacenp0[3:0],dacenp0[3:0],dacenp0[3:0]}),
+    .ENB({dacenn3[3:0],dacenn2[3:0],dacenn1[3:0],dacenn0[3:0]}),
+    .VDD(VPWR),
+    .VSS(VGND)
+    );
+
+(* keep_hierarchy = "yes", keep = "yes" *) input_mirror wires (
+    .Iout(dacout),
+    .VbiasP(iref),
     .i_out(i_out),
     .i_in(i_in),
-    .VDDA(vdda[3:0])
+    .VDDA(vdda[3:0]),
+    .VSSA(vssa[1:0])
     );
 endmodule
 
