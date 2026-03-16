@@ -3,8 +3,8 @@
 DESIGN_NAME: heichips25_pudding
 VERILOG_FILES: 
 - dir::../src/heichips25_pudding.sv
-- dir::../src/dac32module.v
-- dir::../src/analog_wires.v
+- dir::../src/dac4x32module.v
+- dir::../src/input_mirror.v
 
 CLOCK_PORT: clk
 CLOCK_PERIOD: 10 # 10ns = 100MHz
@@ -46,33 +46,29 @@ USE_SLANG: true
 # reserve space for the DAC
 FP_OBSTRUCTIONS: 
 # dac obstruction height is 30.33
-- [360.2, 20.62, 400, 46.95]
-- [360.2, 148.9, 400, 179.23]
-- [400, 4, 497, 196]
+- [139.3, 85, 450, 115.33]
+- [450, 4, 497, 196]
 
 MACROS:
   dac32module:
     gds:
-      - dir::../gds/dac32module.gds
+      - dir::../gds/dac4x32module.gds
     lef:
-      - dir::../gds/dac32module.lef
+      - dir::../gds/dac4x32module.lef
 #   nl:
-#     - dir::../src/dac32module.sv
+#     - dir::../src/dac4x32module.sv
     instances:
-      dac0:
-        location: [362.2, 22.62]
-        orientation: N
-      dac1:
-        location: [362.2, 150.9]
+      dac:
+        location: [141.3, 87]
         orientation: N
   analog_wires:
     gds:
-      - dir::../gds/analog_wires.gds
+      - dir::../gds/input_mirror.gds
     lef:
-      - dir::../gds/analog_wires.lef
+      - dir::../gds/input_mirror.lef
     instances:
       wires:
-        location: [400, 4]
+        location: [450, 4]
         orientation: N
 
 # Connect macro power pins to the PDN
@@ -93,8 +89,7 @@ FP_MACRO_HORIZONTAL_HALO: 2
 FP_MACRO_VERTICAL_HALO: 2
 
 PDN_MACRO_CONNECTIONS:
-  - "dac0 VPWR VGND VDD VSS"
-  - "dac1 VPWR VGND VDD VSS"
+  - "dac VPWR VGND VDD VSS"
 
 # select primary GDS streamout tool 
 PRIMARY_GDSII_STREAMOUT_TOOL: magic
