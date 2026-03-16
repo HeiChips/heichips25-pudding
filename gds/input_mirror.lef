@@ -7,36 +7,42 @@ MACRO input_mirror
   FOREIGN input_mirror ;
   ORIGIN 0.000 0.000 ;
   SIZE 49.600 BY 188.000 ;
-  PIN VDD
-    USE POWER ;
-    PORT
-      LAYER Metal3 ;
-        RECT 0.000 88.660 0.700 90.390 ;
-    END
-    PORT
-      LAYER Metal3 ;
-        RECT 0.000 85.430 0.700 87.160 ;
-    END
-    PORT
-      LAYER Metal3 ;
-        RECT 0.000 101.800 0.700 103.530 ;
-    END
-    PORT
-      LAYER Metal3 ;
-        RECT 0.000 105.030 0.700 106.760 ;
-    END
-  END VDD
-  PIN VSS
-    USE GROUND ;
+  PIN VSSA[0]
     PORT
       LAYER Metal3 ;
         RECT 0.000 83.000 0.700 84.730 ;
     END
+  END VSSA[0]
+  PIN VDDA[0]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 85.430 0.700 87.160 ;
+    END
+  END VDDA[0]
+  PIN VDDA[1]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 88.660 0.700 90.390 ;
+    END
+  END VDDA[1]
+  PIN VDDA[2]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 101.800 0.700 103.530 ;
+    END
+  END VDDA[2]
+  PIN VDDA[3]
+    PORT
+      LAYER Metal3 ;
+        RECT 0.000 105.030 0.700 106.760 ;
+    END
+  END VDDA[3]
+  PIN VSSA[1]
     PORT
       LAYER Metal3 ;
         RECT 0.000 107.460 0.700 109.190 ;
     END
-  END VSS
+  END VSSA[1]
   PIN VbiasP[0]
     PORT
       LAYER Metal3 ;
