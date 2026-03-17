@@ -26,11 +26,14 @@ module heichips25_pudding(
    
     wire [7:0] iref;
     wire       dacout;
-    wire [1:0] vssa;
+    wire       vssa;
     // List all unused inputs to prevent warnings
-    wire _unused = &{ena, uio_in[7:0], vssa[1:0], iref[7:0]};
+    wire _unused = &{ena, uio_in[7:0], vssa, iref[7:0]};
 
-    logic[15:0] dacen, dacenp, dacenn;
+    logic[3:0] dacen0, dacenp0, dacenn0;
+    logic[3:0] dacen1, dacenp1, dacenn1;
+    logic[3:0] dacen2, dacenp2, dacenn2;
+    logic[3:0] dacen3, dacenp3, dacenn3;
 
     logic datum, shift, transfer, dir;
 
@@ -42,7 +45,10 @@ module heichips25_pudding(
     assign transfer = ui_in[2];
     assign dir      = ui_in[3];
 
-    assign dacen = {16{ui_in[4]}};
+    assign dacen0 = {4{ui_in[4]}};
+    assign dacen1 = {4{ui_in[5]}};
+    assign dacen2 = {4{ui_in[6]}};
+    assign dacen3 = {4{ui_in[7]}};
 
     always_ff @(posedge clk or negedge rst_n) 
     begin
@@ -70,12 +76,30 @@ module heichips25_pudding(
     
 assign uo_out  = daisychain[127:120];
 assign uio_out = state[127:120];
-assign uio_oe  = 8'hFF;
+assign uio_oe  = {8{ena}};
 
-    digital16 digitalen (
-    .in(dacen[15:0]),
-    .outp(dacenp[15:0]),
-    .outn(dacenn[15:0])
+    digital4 digitalen0 (
+    .in(dacen0[3:0]),
+    .outp(dacenp0[3:0]),
+    .outn(dacenn0[3:0])
+    );
+
+    digital4 digitalen1 (
+    .in(dacen1[3:0]),
+    .outp(dacenp1[3:0]),
+    .outn(dacenn1[3:0])
+    );
+
+    digital4 digitalen2 (
+    .in(dacen2[3:0]),
+    .outp(dacenp2[3:0]),
+    .outn(dacenn2[3:0])
+    );
+
+    digital4 digitalen3 (
+    .in(dacen3[3:0]),
+    .outp(dacenp3[3:0]),
+    .outn(dacenn3[3:0])
     );
 
 
@@ -84,8 +108,8 @@ assign uio_oe  = 8'hFF;
     .VbiasP(iref[7:0]),
     .ON(state[127:0]),
     .ONB(~state[127:0]),
-    .EN(dacenp[15:0]),
-    .ENB(dacenn[15:0]),
+    .EN({dacenp3[3:0],dacenp2[3:0],dacenp1[3:0],dacenp0[3:0]}),
+    .ENB({dacenn3[3:0],dacenn2[3:0],dacenn1[3:0],dacenn0[3:0]}),
     .VDD(VPWR),
     .VSS(VGND)
     );
@@ -94,18 +118,18 @@ assign uio_oe  = 8'hFF;
     .VbiasP(iref),
     .i_out(i_out),
     .i_in(i_in),
-    .VSSA(vssa[1:0])
+    .VSSA(vssa)
     );
 endmodule
 
-module digital16(
-    input  logic [15:0] in,
-    output logic [15:0] outn,
-    output logic [15:0] outp
+module digital4(
+    input  logic [3:0] in,
+    output logic [3:0] outn,
+    output logic [3:0] outp
 );
     // 16 instances, each bit wired to one instance
   genvar i;
-      for (i = 0; i < 16; i++) begin : g
+      for (i = 0; i < 4; i++) begin : g
           inverterpair u (
               .IN   (in[i]),
               .OUTN (outn[i]),

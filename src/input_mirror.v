@@ -4,9 +4,9 @@
 (* blackbox *)
 module input_mirror (
     inout [7:0] VbiasP,
-    inout       i_in,
-    inout       i_out,
-    inout [1:0] VSSA
+    inout i_in,
+    inout i_out,
+    inout VSSA
 );
 
 //  wire bias;
@@ -22,6 +22,6 @@ module input_mirror (
 //  assign VDDA[2] = vdda;
 //  assign VDDA[1] = vdda;
 //  assign VDDA[0] = vdda;
-    assign VSSA[1] = vssa;
-    assign VSSA[0] = vssa;
+//  assign VSSA[1] = vssa;
+    assign VSSA = vssa;
 endmodule
