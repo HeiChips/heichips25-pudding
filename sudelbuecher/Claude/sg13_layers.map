@@ -1,12 +1,24 @@
 # SG13G2 layer map  (layer  datatype  name)
-# Source: IHP Open PDK documentation
-# https://ihp-open-pdk-docs.readthedocs.io/en/latest/layout_rules/02_layer_table.html
-#
-# Format: <GDS layer>  <GDS datatype>  <name>
-# Datatype conventions (where applicable):
-#   0  = drawing
-#   2  = pin
-#   25 = text/label (used for LVS)
+# Source: sg13g2.lyp (authoritative KLayout layer properties file)
+# Format: <GDS layer>  <GDS datatype>  <n>
+# Datatypes included: drawing(0), pin(2), text(25), block(21),
+#   and purpose-specific recognition/pad datatypes where meaningful.
+# Omitted: mask(20), filler(22), nofill(23), slit(24), OPC(26),
+#   iOPC(27), noqrc(28), res(29), net(3), boundary(4), iprobe(33),
+#   diffprb(34), label(1), lvs(19) — tool-internal or fill-generation only.
+
+# ── Substrate / well ─────────────────────────────────────────────────────────
+40   0    Substrate
+40   25   Substrate_text
+31   0    NWell
+31   2    NWell_pin
+32   0    nBuLay
+32   2    nBuLay_pin
+32   21   nBuLay_block
+46   0    PWell
+46   2    PWell_pin
+46   21   PWell_block
+257  0    isoNWell
 
 # ── FEOL ─────────────────────────────────────────────────────────────────────
 1    0    Activ
@@ -14,51 +26,99 @@
 3    0    BiWind
 5    0    GatPoly
 5    2    GatPoly_pin
-5    25   GatPoly_label
 6    0    Cont
 7    0    nSD
+7    21   nSD_block
 13   0    BasPoly
 13   2    BasPoly_pin
 14   0    pSD
 28   0    SalBlock
-31   0    NWell
-31   2    NWell_pin
-32   0    nBuLay
-32   2    nBuLay_pin
 33   0    EmWind
 35   0    DeepCo
-40   0    Substrate
-40   25   Substrate_label
 44   0    ThickGateOx
-46   0    PWell
-46   2    PWell_pin
-51   0    HeatTrans
 55   0    EmPoly
+90   0    EmWind3
+91   0    EmWiHV3
+156  0    EmWiHV
+101  0    ColOpen
+139  0    ColWind
+92   0    RedBuLay
+
+# ── Implants / doping ────────────────────────────────────────────────────────
+15   0    NLDB
+45   0    PLDB
+68   0    RadHard
+70   0    Varicap
+111  0    EXTBlock
+112  0    NLDD
+113  0    PLDD
+114  0    NExt
+115  0    PExt
+116  0    NExtHV
+117  0    PExtHV
+127  0    INLDPWL
+131  0    nBuLayCut
+
+# ── Device recognition / special ─────────────────────────────────────────────
 99   0    Recog
 99   2    Recog_pin
+99   30   Recog_esd
+99   31   Recog_diode
+99   32   Recog_tsv
+99   35   Recog_pillar
+99   36   Recog_sbump
+99   37   Recog_otp
+99   38   Recog_pdiode
+99   39   Recog_mom
+99   100  Recog_pcm
+51   0    HeatTrans
+52   0    HeatRes
+93   0    SMOS
+24   0    RES
+25   0    SRAM
+26   0    TRANS
+16   0    DigiBnd
+60   0    DigiSub
+48   0    IC
 
-# ── Metal interconnect ────────────────────────────────────────────────────────
+# ── Passivation / pads ───────────────────────────────────────────────────────
+9    0    Passiv
+9    2    Passiv_pin
+9    35   Passiv_pillar
+9    36   Passiv_sbump
+9    40   Passiv_pdl
+41   0    dfpad
+41   35   dfpad_pillar
+41   36   dfpad_sbump
+23   0    BackPassiv
+97   0    GraphPad
+124  0    MEMPAD
+
+# ── Metal interconnect (BEOL) ─────────────────────────────────────────────────
 8    0    Metal1
 8    2    Metal1_pin
-8    25   Metal1_label
+8    25   Metal1_text
 10   0    Metal2
 10   2    Metal2_pin
-10   25   Metal2_label
+10   25   Metal2_text
 30   0    Metal3
 30   2    Metal3_pin
-30   25   Metal3_label
+30   25   Metal3_text
 50   0    Metal4
 50   2    Metal4_pin
-50   25   Metal4_label
+50   25   Metal4_text
 67   0    Metal5
 67   2    Metal5_pin
-67   25   Metal5_label
+67   25   Metal5_text
 126  0    TopMetal1
 126  2    TopMetal1_pin
-126  25   TopMetal1_label
+126  25   TopMetal1_text
 134  0    TopMetal2
 134  2    TopMetal2_pin
-134  25   TopMetal2_label
+134  25   TopMetal2_text
+20   0    BackMetal1
+20   2    BackMetal1_pin
+20   25   BackMetal1_text
 
 # ── Contacts / vias ───────────────────────────────────────────────────────────
 19   0    Via1
@@ -68,10 +128,85 @@
 125  0    TopVia1
 133  0    TopVia2
 
-# ── Passivation ───────────────────────────────────────────────────────────────
-9    0    Passiv
-9    2    Passiv_pin
+# ── Poly / resistors / passive ────────────────────────────────────────────────
+128  0    PolyRes
+128  2    PolyRes_pin
+129  0    Vmim
+36   0    MIM
+27   0    IND
+27   2    IND_pin
+27   25   IND_text
+69   0    MemCap
+146  0    ThinFilmRes
+147  0    RFMEM
+145  0    MEMVia
+143  0    HafniumOx
+
+# ── Flash / OTP ───────────────────────────────────────────────────────────────
+153  0    FGEtch
+154  0    CtrGat
+155  0    FGImp
+
+# ── Graphene / photonics / specialty ──────────────────────────────────────────
+78   0    GraphBot
+79   0    GraphTop
+85   0    GraphCont
+89   0    GraphPas
+118  0    GraphGate
+109  0    GraphMetal1
+110  0    GraphMet1L
+83   0    AntVia1
+84   0    AntMetal2
+132  0    AntMetal1
+86   0    SiWG
+87   0    SiGrating
+88   0    SiNGrating
+119  0    SiNWG
+
+# ── 3D integration / bonding ──────────────────────────────────────────────────
+72   0    IntBondVia
+73   0    IntBondMet
+74   0    DevBondVia
+75   0    DevBondMet
+76   0    DevTrench
+77   0    Redist
+152  0    DeepVia
+54   0    FBE
+157  0    LBE
+
+# ── Sensor ────────────────────────────────────────────────────────────────────
+135  0    SNSRing
+136  0    Sensor
+137  0    SNSArms
+138  0    SNSCMOSVia
+149  0    SNSBotVia
+151  0    SNSTopVia
+142  0    FLM
+
+# ── Miscellaneous ─────────────────────────────────────────────────────────────
+98   0    Polimide
+98   2    Polimide_pin
+63   0    TEXT
+62   0    NoDRC
+148  0    NoRCX
+159  0    AlCuStop
+160  0    NoMetFiller
+39   0    EdgeSeal
 
 # ── Annotation / boundary ────────────────────────────────────────────────────
-63   0    TEXT
 189  0    prBoundary
+190  0    Exchange0
+190  2    Exchange0_pin
+190  25   Exchange0_text
+191  0    Exchange1
+191  2    Exchange1_pin
+191  25   Exchange1_text
+192  0    Exchange2
+192  2    Exchange2_pin
+192  25   Exchange2_text
+193  0    Exchange3
+193  2    Exchange3_pin
+193  25   Exchange3_text
+194  0    Exchange4
+194  2    Exchange4_pin
+194  25   Exchange4_text
