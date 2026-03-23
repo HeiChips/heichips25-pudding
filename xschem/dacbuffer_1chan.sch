@@ -26,16 +26,16 @@ N 280 -100 460 -100 {lab=C1}
 N 460 -180 460 -100 {lab=C1}
 C {title.sym} 160 0 0 0 {name=l1 author="Christoph Maier"}
 C {sg13g2_pr/sg13_hv_pmos.sym} 460 -200 1 1 {name=M1
-l=4.46u
-w=16u
+l=4.04u
+w=14.6u
 ng=1
 m=1
 model=sg13_hv_pmos
 spiceprefix=X
 }
 C {sg13g2_pr/sg13_hv_pmos.sym} 360 -200 1 1 {name=M0
-l=4.46u
-w=16u
+l=4.04u
+w=14.6u
 ng=1
 m=1
 model=sg13_hv_pmos
