@@ -40,9 +40,9 @@ xdac1 VDD EN[2] EN[3] ENB[2] ENB[3] ON[111] ON[110] ON[109] ON[108] ON[107] ON[1
 + ONB[99] ONB[98] ONB[97] ONB[96] EN[13] EN[12] Iout VbiasP[6] VbiasP[1] bias[6] bias[1] VSS dac2u32out4in
 xb32 VDD VbiasP[4] VbiasP[5] bias[5] bias[4] VbiasP[3] VbiasP[2] bias[2] bias[3] dacbuffer
 xb21 VDD VbiasP[5] VbiasP[6] bias[6] bias[5] VbiasP[2] VbiasP[1] bias[1] bias[2] dacbuffer
-xb10 VDD VbiasP[6] VbiasP[0] bias[0] bias[6] VbiasP[1] VbiasP[7] bias[7] bias[1] dacbuffer
+xb10 VDD VbiasP[6] VbiasP[7] bias[7] bias[6] VbiasP[1] VbiasP[0] bias[0] bias[1] dacbuffer
 xb3 VDD VbiasP[4] bias[4] bias[3] VbiasP[3] dacendbuffer
-xb0 VDD VbiasP[0] bias[0] bias[7] VbiasP[7] dacendbuffer
+xb0 VDD VbiasP[7] bias[7] bias[0] VbiasP[0] dacendbuffer
 .ends
 
 * expanding   symbol:  dac2u32out4in.sym # of pins=13

@@ -58,14 +58,14 @@ N 1520 -860 1520 -800 {lab=VbiasP[1]}
 N 2000 -860 2000 -780 {lab=bias[1]}
 N 1540 -780 2000 -780 {lab=bias[1]}
 N 1540 -860 1540 -780 {lab=bias[1]}
-N 2500 -860 2500 -840 {lab=VbiasP[0]}
-N 2040 -840 2500 -840 {lab=VbiasP[0]}
-N 2040 -860 2040 -840 {lab=VbiasP[0]}
-N 2060 -820 2520 -820 {lab=bias[0]}
-N 2060 -860 2060 -820 {lab=bias[0]}
-N 2520 -860 2520 -820 {lab=bias[0]}
-N 2560 -860 2560 -800 {lab=VbiasP[7]}
-N 2100 -860 2100 -800 {lab=VbiasP[7]}
+N 2500 -860 2500 -840 {lab=VbiasP[7]}
+N 2040 -840 2500 -840 {lab=VbiasP[7]}
+N 2040 -860 2040 -840 {lab=VbiasP[7]}
+N 2060 -820 2520 -820 {lab=bias[7]}
+N 2060 -860 2060 -820 {lab=bias[7]}
+N 2520 -860 2520 -820 {lab=bias[7]}
+N 2560 -860 2560 -800 {lab=#net1}
+N 2100 -860 2100 -800 {lab=#net1}
 N 2580 -860 2580 -780 {lab=bias[0]}
 N 2120 -860 2120 -780 {lab=bias[0]}
 N 1440 -960 1760 -960 {lab=VDD}
@@ -100,7 +100,7 @@ N 1560 -620 1700 -620 {lab=ENB[13:12]}
 N 1560 -560 1700 -560 {lab=ON[111:96]}
 N 1560 -540 1700 -540 {lab=ONB[111:96]}
 N 2340 -960 2540 -960 {lab=VDD}
-N 2100 -800 2560 -800 {lab=VbiasP[7]}
+N 2100 -800 2560 -800 {lab=#net1}
 N 2120 -780 2580 -780 {lab=bias[0]}
 N 140 -300 2430 -300 {lab=VbiasP[7:0]}
 N 140 -260 2430 -260 {lab=EN[15:0]}
@@ -194,10 +194,10 @@ C {lab_wire.sym} 1690 -800 0 0 {name=p46 lab=VbiasP[1]}
 C {lab_wire.sym} 1690 -820 0 0 {name=p47 lab=bias[6]}
 C {lab_wire.sym} 2270 -680 0 0 {name=p48 lab=VbiasP[7],VbiasP[0]}
 C {lab_wire.sym} 2270 -700 0 0 {name=p49 lab=bias[7],bias[0]}
-C {lab_wire.sym} 2270 -780 0 0 {name=p50 lab=bias[7]}
-C {lab_wire.sym} 2270 -840 0 0 {name=p51 lab=VbiasP[0]}
-C {lab_wire.sym} 2270 -800 0 0 {name=p52 lab=VbiasP[7]}
-C {lab_wire.sym} 2270 -820 0 0 {name=p53 lab=bias[0]}
+C {lab_wire.sym} 2270 -820 0 0 {name=p50 lab=bias[7]}
+C {lab_wire.sym} 2270 -800 0 0 {name=p51 lab=VbiasP[0]}
+C {lab_wire.sym} 2270 -840 0 0 {name=p52 lab=VbiasP[7]}
+C {lab_wire.sym} 2270 -780 0 0 {name=p53 lab=bias[0]}
 C {lab_wire.sym} 2270 -520 0 0 {name=p54 lab=ON[0:15]}
 C {lab_wire.sym} 2270 -500 0 0 {name=p55 lab=ONB[0:15]}
 C {lab_wire.sym} 2270 -600 0 0 {name=p56 lab=EN[1:0]}
