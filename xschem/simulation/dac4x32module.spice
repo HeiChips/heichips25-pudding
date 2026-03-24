@@ -28,7 +28,7 @@ xdac2 VDD EN[4] EN[5] ENB[4] ENB[5] ON[95] ON[94] ON[93] ON[92] ON[91] ON[90] ON
 + ONB[32] ONB[33] ONB[34] ONB[35] ONB[36] ONB[37] ONB[38] ONB[39] ONB[40] ONB[41] ONB[42] ONB[43] ONB[44] ONB[45] ONB[46] ONB[47] ENB[11]
 + ENB[10] ONB[95] ONB[94] ONB[93] ONB[92] ONB[91] ONB[90] ONB[89] ONB[88] ONB[87] ONB[86] ONB[85] ONB[84] ONB[83] ONB[82] ONB[81] ONB[80]
 + EN[11] EN[10] Iout VbiasP[5] VbiasP[2] bias[5] bias[2] VSS dac2u32out4in
-xdac0 VDD EN[0] EN[1] ENB[0] ENB[1] ON[127] ON[126] ON[125] ON[124] ON[123] ON[122] ON[121] ON[120] ON[119] ON[118] ON[117]
+xdac0 VDD EN[1] EN[0] ENB[1] ENB[0] ON[127] ON[126] ON[125] ON[124] ON[123] ON[122] ON[121] ON[120] ON[119] ON[118] ON[117]
 + ON[116] ON[115] ON[114] ON[113] ON[112] ON[0] ON[1] ON[2] ON[3] ON[4] ON[5] ON[6] ON[7] ON[8] ON[9] ON[10] ON[11] ON[12] ON[13] ON[14]
 + ON[15] ONB[0] ONB[1] ONB[2] ONB[3] ONB[4] ONB[5] ONB[6] ONB[7] ONB[8] ONB[9] ONB[10] ONB[11] ONB[12] ONB[13] ONB[14] ONB[15] ENB[15]
 + ENB[14] ONB[127] ONB[126] ONB[125] ONB[124] ONB[123] ONB[122] ONB[121] ONB[120] ONB[119] ONB[118] ONB[117] ONB[116] ONB[115] ONB[114]
@@ -40,9 +40,9 @@ xdac1 VDD EN[2] EN[3] ENB[2] ENB[3] ON[111] ON[110] ON[109] ON[108] ON[107] ON[1
 + ONB[99] ONB[98] ONB[97] ONB[96] EN[13] EN[12] Iout VbiasP[6] VbiasP[1] bias[6] bias[1] VSS dac2u32out4in
 xb32 VDD VbiasP[4] VbiasP[5] bias[5] bias[4] VbiasP[3] VbiasP[2] bias[2] bias[3] dacbuffer
 xb21 VDD VbiasP[5] VbiasP[6] bias[6] bias[5] VbiasP[2] VbiasP[1] bias[1] bias[2] dacbuffer
-xb10 VDD VbiasP[6] VbiasP[7] bias[7] bias[6] VbiasP[1] VbiasP[0] bias[0] bias[1] dacbuffer
+xb10 VDD VbiasP[6] VbiasP[0] bias[0] bias[6] VbiasP[1] VbiasP[7] bias[7] bias[1] dacbuffer
 xb3 VDD VbiasP[4] bias[4] bias[3] VbiasP[3] dacendbuffer
-xb0 VDD VbiasP[7] bias[7] bias[0] VbiasP[0] dacendbuffer
+xb0 VDD VbiasP[0] bias[0] bias[7] VbiasP[7] dacendbuffer
 .ends
 
 * expanding   symbol:  dac2u32out4in.sym # of pins=13
