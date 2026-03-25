@@ -67,7 +67,7 @@ save all
 op
 write test_dac4x32_dc.raw
 set appendwrite
-dc Vout 0 1.2 10m VlogI -8 -6 0.5
+dc Vout 0 1.2 10m VlogI -8 -5.5 0.5
 *tran 10n 500u
 write test_dac4x32_dc.raw
 plot title \\"output/reference current asymmetry\\" 2*(vout#branch-8*vprobe#branch)/(8*vprobe#branch+vout#branch)
